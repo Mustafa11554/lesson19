@@ -1,37 +1,63 @@
 <?php
-class Character
-{
-public int $health;
-public int   $stat;
+abstract class Character {
+    protected $name;
+    protected $age;
 
-public function __construct($health, $stat)
-{
-$this->health = $health;
-$this->stat = $stat;
-}
-public function getHealth()
-{
-    return $this->health;
-}
-public function getStat()
-{
-    return $this->stat;
-}
-}
-class Boss extends Character
-{
-public function __construct($health, $stat)
-{
-    parent::__construct($health, $stat);
-}
-public function getHealth() {
-    return $this->health * 10;
+    public function __construct($name, $age) {
+        $this->name = $name;
+        $this->age = $age;
     }
-    
-    public function getStat() {
-    return $this->stat * 10;
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getAge() {
+        return $this->age;
+    }
+
+    abstract public function getInfo();
+}
+class Warrior extends Character {
+    protected $strength;
+
+    public function __construct($name, $age, $strength) {
+        parent::__construct($name, $age);
+        $this->strength = $strength;
+    }
+
+    public function getStrength() {
+        return $this->strength;
+    }
+
+    public function getInfo() {
+        return "Warrior - Name: " . $this->getName() . ", Age: " . $this->getAge() . ", Strength: " . $this->getStrength();
     }
 }
-$boss = new Boss(100,50);
-echo "Значение здоровья: "  . $boss->getHealth() . "<br>";
-echo "Значение статистики: " . $boss->getStat();
+
+class Mage extends Character {
+    protected $magicPower;
+
+    public function __construct($name, $age, $magicPower) {
+        parent::__construct($name, $age);
+        $this->magicPower = $magicPower;
+    }
+
+    public function getMagicPower() {
+        return $this->magicPower;
+    }
+
+    public function getInfo() {
+        return "Mage - Name: " . $this->getName() . ", Age: " . $this->getAge() . ", Magic Power: " . $this->getMagicPower();
+    }
+}
+$characters = array(
+    new Warrior("Warrior1", 25, 100),
+    new Mage("Mage1", 30, 150)
+);
+function printCharacterInfo($character) {
+    echo $character->getInfo() . "<br>";
+}
+foreach ($characters as $character) {
+    printCharacterInfo($character);
+}
